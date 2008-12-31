@@ -1,0 +1,9 @@
+ChangeLog
+MANIFEST
+Makefile.PL
+examples/show_meta.pl
+examples/show_output.txt
+lib/Geo/Format/Envisat.pm
+t/01use.t
+t/10name.t
+t/99pod.t
