@@ -17,12 +17,12 @@ use Geo::Format::Envisat;
 
 my ($fn) = @ARGV;
 
-my $meta = envisat_meta_from_file $fn;
+my $meta = envisat_meta_from_file $fn, take_dsd_content => 1;
 
 print "***** the full data meta-data\n";
 print Dumper $meta;
 
-foreach my $class ('MDS1', 'MSD2')
+foreach my $class ('MDS1', 'MDS2')
 {
     my $mds = $meta->{dsd}{$class}
         or next;

@@ -13,7 +13,7 @@ use Data::Dumper;
 $Data::Dumper::Sortkeys =
    sub {[sort {lc($a) cmp lc($b) || $a cmp $b} keys %{$_[0]}] };
 
-my $n1 = '/tmp/ASA_IMG_1PNDPA20080903_100725_000000152071_00423_34044_1202.N1';
+my $n1 = '/abc/ASA_IMG_1PNDPA20080903_100725_000000152071_00423_34044_1202.N1';
 #warn Dumper envisat_mph_from_name($n1);
 
 is_deeply(envisat_mph_from_name($n1),
@@ -22,7 +22,7 @@ is_deeply(envisat_mph_from_name($n1),
           abs_orbit => 34044,
           CYCLE => '+071',
           cycle => 71,
-          duration => '00000015',
+          duration => 15,
           originator_id => 'DPA',
           PHASE => '2',
           phase => '2',
@@ -40,7 +40,5 @@ is_deeply(envisat_mph_from_name($n1),
           sensing_start_iso => '2008-09-03T10:07:25Z',
           start_day => '20080903',
           start_time => '100725',
-          TOT_SIZE => '202880237<bytes>',
-          tot_size => 202880237
         }
 );

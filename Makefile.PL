@@ -4,10 +4,10 @@ require 5.008;
 
 WriteMakefile
   ( NAME        => 'Geo::Format::Envisat'
-  , VERSION     => '0.01'
+  , VERSION     => '0.02'
   , PREREQ_PM   =>
      { Test::More     => 0.47
-     , Geo::Point     => 0.08
+     , Geo::Point     => 0.10
      , IO::Uncompress::AnyUncompress => 2.015
      , POSIX          => 0
      , File::Basename => 0
@@ -28,7 +28,7 @@ LICENSE         = artistic
 
 # for POD
 FIRST_YEAR      = 2008
-EMAIL           = geo@overmeer.net
+EMAIL           = perl@overmeer.net
 WEBSITE         = http://perl.overmeer.net/geo/
 
 PODTAIL         = ../Geo-shared-podtail

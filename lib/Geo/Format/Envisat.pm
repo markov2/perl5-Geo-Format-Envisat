@@ -17,7 +17,7 @@ $month{$_} = keys %month for @month;
 delete $month{XXX};
 
 $ENV{TZ}   = 'UTC';
-tzset;
+tzset;              # needed for mktime()
 
 use constant MPH_LENGTH => 1247;
 
@@ -101,10 +101,15 @@ sub envisat_mph_from_name($)
     $mph;
 }
 
-=function envisat_meta_from_file FILENAME
+=function envisat_meta_from_file FILENAME, OPTIONS
 Read all meta-data from the file specified by its FILENAME.  The file
 can be in compressed form, although you may need to install some
 additional C<IO::Uncompress> modules.
+
+=option  take_dsd_content BOOLEAN
+=default take_dsd_content <false>
+Collect the content from all non-measurement DSD records.  These are
+binary fields.
 
 =example envisat_meta_from_file
  my $meta = envisat_meta_from_file $fn;
@@ -113,8 +118,8 @@ additional C<IO::Uncompress> modules.
  my $mds = $meta->{dsd}{MSD1};  # data-set description
 =cut
 
-sub envisat_meta_from_file($)
-{   my $fn = shift;
+sub envisat_meta_from_file($@)
+{   my ($fn, %args) = @_;
     my $mph_from_filename = _decode_name $fn;
 
     my $meta;
@@ -144,12 +149,23 @@ sub envisat_meta_from_file($)
         _cleanup_sph $sph;
 
         for(1..$dsd_num)
-        {    my $dsd = _decompose(_read_block $file, $dsd_size);
-             _cleanup_dsd $dsd;
-             $dsd->{num_dsr} > 0
-                 or next;
-             (my $name = $dsd->{ds_name}) =~ s/\s+/_/g;
-             $dsd{$name} = $dsd;
+        {   my $dsd = _decompose(_read_block $file, $dsd_size);
+            _cleanup_dsd $dsd;
+            $dsd->{num_dsr} > 0
+                or next;
+            (my $name = $dsd->{ds_name}) =~ s/\s+/_/g;
+            $dsd{$name} = $dsd;
+        }
+
+        # only forward seeks permitted.
+        my $take = exists $args{take_dsd_content} ? $args{take_dsd_content} : 0;
+        if($take)
+        {   my @sorted = sort {$a->{ds_offset} <=> $b->{ds_offset}} values %dsd;
+            foreach my $dsd (@sorted)
+            {   next if $dsd->{DS_TYPE} eq 'M';
+                $file->seek($dsd->{ds_offset}, 0);
+                $dsd->{content} = _read_block $file, $dsd->{ds_size};
+            }
         }
     }
 
@@ -183,7 +199,7 @@ sub _decode_name($)
     , originator_id => $3   # proc center abbreviated into 3 chars
     , start_day  => $4
     , start_time => $5
-    , duration   => $6
+    , duration   => $6+0
     , PHASE      => $7
     , CYCLE      => "+$8"
     , REL_ORBIT  => "+$9"
@@ -307,7 +323,8 @@ sub _cleanup_sph($)
       ? (@{$bounds{FIRST}}, reverse @{$bounds{LAST}} )
       : (@{$bounds{LAST}},  reverse @{$bounds{FIRST}});
 
-    $sph->{target_polys} = [ \@poly ];
+    my $footprint = Geo::Line->filled(points => \@poly, clockwise => 1);
+    $sph->{target_polys} = Geo::Surface->new($footprint);
 
     _add_missing_stripped $sph;
 }
@@ -328,7 +345,7 @@ sub _cleanup_dsd($)
       : $t eq 'R' ? 'Reference only'
       :             'ERROR';
 
-    # could also be 'MISSING' and 'NOT USED' :-(
+    # field can also contain 'MISSING' and 'NOT USED' :-(
     $dsd->{filename} = $t eq 'R' ? $dsd->{FILENAME} : undef;
 
     _add_missing_stripped $dsd;
@@ -338,7 +355,7 @@ sub _read_block($$)
 {   my ($fh, $size) = @_;
     my $buffer = '';
     $fh->read($buffer, $size - length $buffer, length $buffer)
-       while length $buffer < $size;
+        while length $buffer < $size;
     $buffer;
 }
 

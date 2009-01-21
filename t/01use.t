@@ -13,6 +13,8 @@ my @show_versions =
  qw/Test::More
     IO::Uncompress::AnyUncompress
     Geo::Point
+    Geo::GML
+    Geo::EOP
    /;
 
 foreach my $package (@show_versions)

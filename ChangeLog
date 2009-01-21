@@ -4,5 +4,11 @@
 All modifications where created by Mark Overmeer, unless explicitly
 stated differently.
 
-version 0.01:
+version 0.02: Wed Jan 21 13:27:53 CET 2009
+	- Use Geo::Surface for collected footprints.
+	- Require Geo::Point 0.10 for fixes.
+	- collect DSD contents, except for the huge measurement data.
+	- fix silly mistakes in t/10name.t
+
+version 0.01: Wed Dec 31 14:59:32 CET 2008
 	- initial release, probably quite complete
