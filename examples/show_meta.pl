@@ -9,7 +9,7 @@ $Data::Dumper::Sortkeys =
 $Data::Dumper::Indent    = 1;
 $Data::Dumper::Quotekeys = 0;
 
-use lib 'lib';    # needed when the module is not yet installed
+use lib 'lib', '../lib';    # needed when the module is not yet installed
 use Geo::Format::Envisat;
 
 @ARGV==1
