@@ -4,7 +4,7 @@ require 5.008;
 
 WriteMakefile
   ( NAME        => 'Geo::Format::Envisat'
-  , VERSION     => '0.90'
+  , VERSION     => '0.91'
   , PREREQ_PM   =>
      { Test::More     => 0.47
      , Geo::Point     => 0.96
