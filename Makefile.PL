@@ -15,6 +15,19 @@ WriteMakefile
   , AUTHOR      => 'Mark Overmeer'
   , ABSTRACT    => 'Decode ENVISAT and ERS1/ERS2 meta-data'
   , LICENSE     => 'perl'
+
+  , META_MERGE =>
+      { 'meta-spec' => { version => 2 }
+      , resources  =>
+         { repository =>
+             { type => 'git'
+             , url  => 'https://github.com/markov2/perl5-Geo-Format-Envisat.git'
+             , web  => 'https://github.com/markov2/perl5-Geo-Format-Envisat'
+             }
+         }
+      , homepage => 'http://perl.overmeer.net/CPAN/'
+      , license  => [ 'http://dev.perl.org/licenses/' ]
+      }
   );
 
 #### the next lines are added for OODoc, which generates the
