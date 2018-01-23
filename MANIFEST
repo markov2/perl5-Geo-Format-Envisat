@@ -1,9 +1,10 @@
 ChangeLog
 MANIFEST
 Makefile.PL
+README.md
 examples/show_meta.pl
 examples/show_output.txt
 lib/Geo/Format/Envisat.pm
 t/01use.t
 t/10name.t
-t/99pod.t
+xt/99pod.t

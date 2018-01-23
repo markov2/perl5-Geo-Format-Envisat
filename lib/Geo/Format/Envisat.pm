@@ -1,8 +1,12 @@
-use warnings;
-use strict;
+# This code is part of distribution Geo-Format-Envisat.  Meta-POD processed
+# with OODoc into POD and HTML manual-pages.  See README.md
+# Copyright Mark Overmeer.  Licensed under the same terms as Perl itself.
 
 package Geo::Format::Envisat;
 use base 'Exporter';
+
+use warnings;
+use strict;
 
 our @EXPORT = qw/envisat_mph_from_name envisat_meta_from_file/;
 
@@ -33,7 +37,7 @@ sub _add_missing_stripped($);
 sub _strip_unit($);
 
 =chapter NAME
-Geo::Format::Envisat - parse Envisat Metadata format
+Geo::Format::Envisat - parse Envisat metadata format
 
 =chapter SYNOPSIS
  use Geo::Format::Envisat;
