@@ -14,7 +14,7 @@ WriteMakefile
      }
   , AUTHOR      => 'Mark Overmeer'
   , ABSTRACT    => 'Decode ENVISAT and ERS1/ERS2 meta-data'
-  , LICENSE     => 'perl'
+  , LICENSE     => 'perl_5'
 
   , META_MERGE =>
       { 'meta-spec' => { version => 2 }
@@ -24,9 +24,9 @@ WriteMakefile
              , url  => 'https://github.com/markov2/perl5-Geo-Format-Envisat.git'
              , web  => 'https://github.com/markov2/perl5-Geo-Format-Envisat'
              }
+         , homepage => 'http://perl.overmeer.net/CPAN/'
+         , license  => [ 'http://dev.perl.org/licenses/' ]
          }
-      , homepage => 'http://perl.overmeer.net/CPAN/'
-      , license  => [ 'http://dev.perl.org/licenses/' ]
       }
   );
 
